@@ -126,7 +126,6 @@ int main() {
       count++;
     }
   }
-  printf("%d\n",count);
   
   if(verify(array, c, rows, cols)) {
     printf("\nPlayer A wins!");
@@ -134,5 +133,9 @@ int main() {
   else {
     printf("\nPlayer B wins!");
   }
+    for(int i = 0; i<=rows; i++){
+        free(array[i]);
+    }
+    free(array);
   
 }
