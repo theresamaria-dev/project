@@ -97,7 +97,7 @@ int main() {
   scanf("%c", &c);
   scanf("%c",&space);
   
-  printf("Player B: ");
+  printf("\nPlayer B: ");
   char c2;
   scanf("%c", &c2);
   
