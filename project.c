@@ -178,14 +178,19 @@ int main() {
   while(!(verify(array, c2, rows, cols)) && !(verify(array, c, rows, cols)) && count<=rows*cols) {
     printf("\nPlayer A, choose a column(1-7): ");
     int x;
-    scanf("%d", &x);
-    if(inRange(x,1,7)){
-    replace (array, x, c, rows);}
-        else { 
-            printf("Invalid column choose again:"); 
-            scanf("%d",&x);
-            replace (array, x, c, rows);
+    while(1){
+    if(scanf("%d", &x)!=1){
+        printf("Invalid input! Please enter a number.\n");
+        while(getchar() != '\n'); 
+       continue;   }
+    if(!inRange(x,1,7)){
+     printf("Invalid column choose again: ");
+        continue;
+      }
+        break;
     }
+            
+    replace (array, x, c, rows);
     print(array, rows, cols);
     count++;
 
@@ -193,14 +198,19 @@ int main() {
     if(!(verify(array, c2, rows, cols)) && !(verify(array, c, rows, cols))) {
       printf("\nPlayer B, choose a column(1-7): ");
       int y;
-      scanf("%d",&y);
-        if(inRange(y,1,7)){
-             replace (array, y, c2, rows);}
-        else { 
-              printf("Invalid column choose again:");
-              scanf("%d",&y);
-              replace (array, y, c2, rows);
+    while(1){
+     if( scanf("%d",&y)!=1){
+        printf("Invalid input! Please enter a number.\n");
+        while(getchar() != '\n'); 
+       continue;  }
+        if(!inRange(y,1,7)){
+        printf("Invalid column choose again: ");
+        continue;
+        }
+        break;
     }
+              
+     replace (array, y, c2, rows);
       print(array, rows, cols);
       count++;
     }
