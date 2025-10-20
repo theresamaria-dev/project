@@ -7,6 +7,7 @@ int verifyV(char** array, int rows, int cols, char c);
 int verifyDown(char** array, int rows, int cols, char c);
 int verifyUp(char** array, int rows, int cols, char c);
 int easyBot(char** array);
+int hardBot(char** array, int rows, int cols);
 
 
 
