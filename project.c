@@ -183,7 +183,7 @@ int main() {
     while(getchar() != '\n'); 
     continue;  
     }
-    if(!inRange(x,1,7)){
+    if(!inRange(x,1,7) || array[0][x-1]!='.'){
      printf("Invalid column , choose again.\n");
         continue;
       }
@@ -203,7 +203,7 @@ int main() {
         printf("Invalid input , enter a number.\n");
         while(getchar() != '\n'); 
         continue;  }
-        if(!inRange(y,1,7)){
+        if(!inRange(y,1,7) || array[0][y-1]!='.'){
         printf("Invalid column , choose again.\n");
          continue;
         }
