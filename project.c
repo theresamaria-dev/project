@@ -159,14 +159,17 @@ int main() {
     scanf("%c", &c);
     while(c!='A'){
      printf("Invalid character , enter again.\n");
-     scanf("%c",&c);}
+     scanf("%c",&c);
+    }
     scanf("%c",&space);
-  if(choice==1){
-    printf("\nPlayer B: ");
-    scanf("%c", &c2);
+    if(choice==1){
+        printf("\nPlayer B: ");
+        scanf("%c", &c2);
     while(c2!='B'){
-     printf("Invalid character , enter again.\n");
-     scanf("%c",&c2);}}
+         printf("Invalid character , enter again.\n");
+         scanf("%c",&c2);
+        }
+    }
     else { c2 = 'B';}
 
     char** array;
@@ -185,11 +188,11 @@ int main() {
     printf("\nPlayer A, choose a column(1-7): ");
     int x;
     while(1){//if the user enters inavlid input
-    if(scanf("%d", &x)!=1){
-    printf("Invalid input , enter a number.\n");
-    while(getchar() != '\n'); 
-    continue;  
-    }
+        if(scanf("%d", &x)!=1){
+        printf("Invalid input , enter a number.\n");
+        while(getchar() != '\n'); 
+            continue;  
+        }
     if(!inRange(x,1,7) || array[0][x-1]!='.'){
      printf("Invalid column , choose again.\n");
         continue;
@@ -202,7 +205,7 @@ int main() {
     count++;
 
       //if player A and B did not win yet, ask player B again to enter a column
-     int y;
+    int y;
     if(!(verify(array, c2, rows, cols)) && !(verify(array, c, rows, cols))) {
       printf("\nPlayer B, choose a column(1-7): ");
      if(choice==1){
@@ -220,7 +223,7 @@ int main() {
 }
     else {
     if(mode == 'E'){ y = easyBot(array);}
-    else if( mode == 'H'){ y = hardBot(array);} 
+    else if( mode == 'H'){ y = hardBot(array, rows, cols);} 
     }
               
      replace (array, y, c2, rows);
