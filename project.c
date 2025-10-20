@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "game.h"
 
 //functions prorotypes
 int verifyH(char** array, int rows, int cols, char c);
