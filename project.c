@@ -142,24 +142,24 @@ void print(char** array, int rows, int cols) {
 }
 
 int main() {
-  const int rows = 6;
-  const int cols = 7;
-   int count =0;
+    const int rows = 6;
+    const int cols = 7;
+    int count =0;
   
-  printf("Welcome to Connect Four\n");
-  char space;
-  printf("Player A: ");
-  char c;
-  scanf("%c", &c);
-  scanf("%c",&space);
+    printf("Welcome to Connect Four\n");
+    char space;
+    printf("Player A: ");
+    char c;
+    scanf("%c", &c);
+    scanf("%c",&space);
   
-  printf("\nPlayer B: ");
-  char c2;
-  scanf("%c", &c2);
+    printf("\nPlayer B: ");
+    char c2;
+    scanf("%c", &c2);
   
-  char** array;
-  array = (char**) malloc(rows*sizeof(char*));
-  for(int i=0; i<=rows; i++) {
+    char** array;
+    array = (char**) malloc(rows*sizeof(char*));
+    for(int i=0; i<=rows; i++) {
     array[i] = (char*) malloc(cols*sizeof(char));
     for(int j=0; j<=cols; j++) {
       array[i][j] = '.';
