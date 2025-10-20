@@ -179,7 +179,7 @@ int main() {
     printf("\nPlayer A, choose a column(1-7): ");
     int x;
     scanf("%d", &x);
-    if(isdigit((unsigned char)c) && inRange(x,1,7)){
+    if(inRange(x,1,7)){
     replace (array, x, c, rows);}
         else { 
             printf("Invalid column choose again:"); 
@@ -194,7 +194,7 @@ int main() {
       printf("\nPlayer B, choose a column(1-7): ");
       int y;
       scanf("%d",&y);
-        if(isdigit((unsigned char)c2) && inRange(y,1,7)){
+        if(inRange(y,1,7)){
              replace (array, y, c2, rows);}
         else { 
               printf("Invalid column choose again:");
