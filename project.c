@@ -152,7 +152,7 @@ int main() {
     char c;
     scanf("%c", &c);
     while(c!='A'){
-     printf("Invalid character enter again:");
+     printf("Invalid character , enter again.\n");
      scanf("%c",&c);}
     scanf("%c",&space);
   
@@ -160,7 +160,7 @@ int main() {
     char c2;
     scanf("%c", &c2);
     while(c2!='B'){
-     printf("Invalid character enter again:");
+     printf("Invalid character , enter again.\n");
      scanf("%c",&c2);}
   
     char** array;
@@ -178,13 +178,14 @@ int main() {
   while(!(verify(array, c2, rows, cols)) && !(verify(array, c, rows, cols)) && count<=rows*cols) {
     printf("\nPlayer A, choose a column(1-7): ");
     int x;
-    while(1){
+    while(1){//if the user enters inavlid input
     if(scanf("%d", &x)!=1){
-        printf("Invalid input! Please enter a number.\n");
-        while(getchar() != '\n'); 
-       continue;   }
+    printf("Invalid input , enter a number.\n");
+    while(getchar() != '\n'); 
+    continue;  
+    }
     if(!inRange(x,1,7)){
-     printf("Invalid column choose again: ");
+     printf("Invalid column , choose again.\n");
         continue;
       }
         break;
@@ -198,14 +199,14 @@ int main() {
     if(!(verify(array, c2, rows, cols)) && !(verify(array, c, rows, cols))) {
       printf("\nPlayer B, choose a column(1-7): ");
       int y;
-    while(1){
+     while(1){
      if( scanf("%d",&y)!=1){
-        printf("Invalid input! Please enter a number.\n");
+        printf("Invalid input , enter a number.\n");
         while(getchar() != '\n'); 
-       continue;  }
+        continue;  }
         if(!inRange(y,1,7)){
-        printf("Invalid column choose again: ");
-        continue;
+        printf("Invalid column , choose again.\n");
+         continue;
         }
         break;
     }
