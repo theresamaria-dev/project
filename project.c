@@ -144,24 +144,31 @@ int main() {
     const int rows = 6;
     const int cols = 7;
     int count =0;
+    int choice;
+    char mode;
+    char space;
+    char c2;
+    char c;
   
     printf("Welcome to Connect Four\n");
-    char space;
+    printf("Would you like to play against human or bot ?(Choose 1 for human 2 for bot)");
+    scanf("%d",&choice);
+    if(choice==1){ printf("Easy or hard mode?(H for hard E for easy)");
+    scanf("%c",&mode);
     printf("Player A: ");
-    char c;
     scanf("%c", &c);
     while(c!='A'){
      printf("Invalid character , enter again.\n");
      scanf("%c",&c);}
     scanf("%c",&space);
-  
+  if(choice==1){
     printf("\nPlayer B: ");
-    char c2;
     scanf("%c", &c2);
     while(c2!='B'){
      printf("Invalid character , enter again.\n");
-     scanf("%c",&c2);}
-  
+     scanf("%c",&c2);}}
+    else { c2 = 'B';}
+
     char** array;
     array = (char**) malloc(rows*sizeof(char*));
     for(int i=0; i<=rows; i++) {
@@ -195,9 +202,10 @@ int main() {
     count++;
 
       //if player A and B did not win yet, ask player B again to enter a column
+     int y;
     if(!(verify(array, c2, rows, cols)) && !(verify(array, c, rows, cols))) {
       printf("\nPlayer B, choose a column(1-7): ");
-      int y;
+     if(choice==1){
      while(1){
      if( scanf("%d",&y)!=1){
         printf("Invalid input , enter a number.\n");
@@ -208,6 +216,11 @@ int main() {
          continue;
         }
         break;
+    }
+}
+    else {
+    if(mode == 'E'){ y = easyBot(array);}
+    else if( mode == 'H'){ y = hardBot(array);} 
     }
               
      replace (array, y, c2, rows);
