@@ -153,8 +153,12 @@ int main() {
     printf("Welcome to Connect Four\n");
     printf("Would you like to play against human or bot ?(Choose 1 for human 2 for bot)");
     scanf("%d",&choice);
-    if(choice==1){ printf("Easy or hard mode?(H for hard E for easy)");
+    scanf("%c",&space);
+    if(choice==1){ 
+    printf("Easy or hard mode?(H for hard E for easy)");
     scanf("%c",&mode);
+    }
+    scanf("%c",&space);
     printf("Player A: ");
     scanf("%c", &c);
     while(c!='A'){
