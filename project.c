@@ -136,7 +136,9 @@ void print(char** array, int rows, int cols) {
   }
    printf("1 2 3 4 5 6 7");
 }
-
+int inRange(int a,int min,int max){
+    return (a>=min && a<=max);
+}
 int main() {
     const int rows = 6;
     const int cols = 7;
@@ -147,11 +149,17 @@ int main() {
     printf("Player A: ");
     char c;
     scanf("%c", &c);
+    while(c!='A'){
+     printf("Invalid character enter again:");
+     scanf("%c",&c);}
     scanf("%c",&space);
   
     printf("\nPlayer B: ");
     char c2;
     scanf("%c", &c2);
+    while(c2!='B'){
+     printf("Invalid character enter again:");
+     scanf("%c",&c2);}
   
     char** array;
     array = (char**) malloc(rows*sizeof(char*));
@@ -169,7 +177,13 @@ int main() {
     printf("\nPlayer A, choose a column(1-7): ");
     int x;
     scanf("%d", &x);
-    replace (array, x, c, rows);
+    if(inRange(x){
+    replace (array, x, c, rows);}
+        else { 
+            printf("Invalid column choose again:"); 
+            scanf("%d",&x);
+            replace (array, x, c, rows);
+    }
     print(array, rows, cols);
     count++;
 
@@ -178,7 +192,13 @@ int main() {
       printf("\nPlayer B, choose a column(1-7): ");
       int y;
       scanf("%d",&y);
-      replace (array, y, c2, rows);
+        if(inRange(y){
+             replace (array, y, c2, rows);}
+        else { 
+              printf("Invalid column choose again:");
+              scanf("%d",&y);
+              replace (array, y, c2, rows);
+    }
       print(array, rows, cols);
       count++;
     }
