@@ -154,7 +154,7 @@ int main() {
     printf("Would you like to play against human or bot ?(Choose 1 for human 2 for bot):\n");
     scanf("%d",&choice);
     scanf("%c",&space);
-    if(choice==1){ 
+    if(choice==2){ 
     printf("Easy or hard mode?(H for hard E for easy):\n");
     scanf("%c",&mode);
     }
