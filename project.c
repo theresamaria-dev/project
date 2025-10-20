@@ -2,11 +2,6 @@
 #include <stdlib.h>
 #include "game.h"
 
-//functions prorotypes
-int verifyH(char** array, int rows, int cols, char c);
-int verifyV(char** array, int rows, int cols, char c);
-int verifyDown(char** array, int rows, int cols, char c);
-int verifyUp(char** array, int rows, int cols, char c);
 
 //if the level is easy
 int easyBot(char** array) {
