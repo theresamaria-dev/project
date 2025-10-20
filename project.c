@@ -7,6 +7,62 @@ int verifyV(char** array, int rows, int cols, char c);
 int verifyDown(char** array, int rows, int cols, char c);
 int verifyUp(char** array, int rows, int cols, char c);
 
+//if the level is easy
+int easyBot(char** array) {
+    int col;
+    do {
+        col = rand() % 7; //choose a column
+    } while(array[0][col] != '.'); //if the top of the column is not empty then the whole column is filled so stop the loop
+    return col; //to return the column chosen by the bot
+}
+
+
+//if the level is hard
+int hardBot(char** array, int rows, int cols) {
+    // the bot tries to win
+    for(int i=0; i<cols; i++) {
+        if(array[0][i] == '.') {
+            int row = 5;
+            while(row>=0 && array[row][i] != '.') { 
+                row--;
+            }
+            if(row >=0) {
+                array[row][i] = 'B'; 
+                if(verify(array, 'B', rows, cols)) { 
+                    array[row][i] = '.';
+                    return i;
+                }
+                array[row][i] = '.'; 
+            }
+        }
+    }
+    
+    // if A can win, try to block it
+    for(int i=0; i<cols; i++) {
+        if(array[0][i] == '.') { // if the column is not filled
+            int row =5;
+            while(row>=0 && array[row][i] != '.') { //try to find an empty space
+                row--;
+            }
+            if(row >=0) {
+                array[row][i] = 'A'; 
+                if(verify(array, 'A', rows, cols)) {  
+                    array[row][i] = '.';
+                    return i;
+                }
+                array[row][i] = '.'; 
+            }
+        }
+    }
+    
+    // if the bot and the player cannot win immediately, then generate a random move
+    int col;
+    do {
+        col = rand() % 7;
+    } while (array[0][col] != '.');
+    return col;
+}
+
 //check if there are 4 identical symbols horizontally
 int verifyH(char** array, int rows, int cols, char c) {
     for(int i=0; i<rows; i++) { //loop through each row
