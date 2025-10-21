@@ -3,7 +3,6 @@
 #include "game.h"
 
 
-
 //if the level is easy
 int easyBot(char** array) {
     int col;
@@ -14,50 +13,9 @@ int easyBot(char** array) {
 }
 
 
-//if the level is hard
+//if the level is medium
 int hardBot(char** array, int rows, int cols) {
-    // the bot tries to win
-    for(int i=0; i<cols; i++) {
-        if(array[0][i] == '.') {
-            int row = 5;
-            while(row>=0 && array[row][i] != '.') { 
-                row--;
-            }
-            if(row >=0) {
-                array[row][i] = 'B'; 
-                if(verify(array, 'B', rows, cols)) { 
-                    array[row][i] = '.';
-                    return i;
-                }
-                array[row][i] = '.'; 
-            }
-        }
-    }
-    
-    // if A can win, try to block it
-    for(int i=0; i<cols; i++) {
-        if(array[0][i] == '.') { // if the column is not filled
-            int row =5;
-            while(row>=0 && array[row][i] != '.') { //try to find an empty space
-                row--;
-            }
-            if(row >=0) {
-                array[row][i] = 'A'; 
-                if(verify(array, 'A', rows, cols)) {  
-                    array[row][i] = '.';
-                    return i;
-                }
-                array[row][i] = '.'; 
-            }
-        }
-    }
-    
-    // if the bot and the player cannot win immediately, then generate a random move
-    int col;
-    do {
-        col = rand() % 7;
-    } while (array[0][col] != '.');
-    return col;
+    // to be implemented in sprint 3
 }
 
 //check if there are 4 identical symbols horizontally
