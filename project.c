@@ -15,7 +15,48 @@ int easyBot(char** array) {
 
 //if the level is medium
 int hardBot(char** array, int rows, int cols) {
-    // to be implemented in sprint 3
+    // the bot tries to win
+    for(int i=0; i<cols; i++) {
+        if(array[0][i] == '.') { //if the column is not filled
+            int row = 5;
+            while(row>=0 && array[row][i] != '.') { //decrement the row until you find an empty slot
+                row--;
+            }
+            if(row >=0) {
+                array[row][i] = 'B'; //try to put B at array[row][i]
+                if(verify(array, 'B', rows, cols)) { //if this move can let the bot win, return column i
+                    array[row][i] = '.';
+                    return i;
+                }
+                array[row][i] = '.'; //else reset the char at array[row][i] to '.'
+            }
+        }
+    }
+    
+    // if A can win, try to block it
+    for(int i=0; i<cols; i++) {
+        if(array[0][i] == '.') { // if the column is not filled
+            int row =5;
+            while(row>=0 && array[row][i] != '.') { //try to find an empty slot
+                row--;
+            }
+            if(row >=0) {
+                array[row][i] = 'A'; //try to put A at array[row][i]
+                if(verify(array, 'A', rows, cols)) { //if the player can win, then return column i so the bot can block it
+                    array[row][i] = '.';
+                    return i;
+                }
+                array[row][i] = '.'; //else reset array[row][i] to '.'
+            }
+        }
+    }
+    
+    // if the bot and the player cannot win immediately, then generate a random move
+    int col;
+    do {
+        col = rand() % 7;
+    } while (array[0][col] != '.');
+    return col;
 }
 
 //check if there are 4 identical symbols horizontally
