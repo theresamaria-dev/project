@@ -15,6 +15,7 @@ int easyBot(char** array) {
 
 //if the level is medium
 int hardBot(char** array, int rows, int cols) {
+    
     // Time Complexity Analysis:
     // Outer loop runs 'cols' times → O(cols)
     // Finding lowest empty row in worst case scans all rows → O(rows)
