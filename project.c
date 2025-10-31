@@ -15,6 +15,15 @@ int easyBot(char** array) {
 
 //if the level is medium
 int hardBot(char** array, int rows, int cols) {
+    // Time Complexity Analysis:
+    // Outer loop runs 'cols' times → O(cols)
+    // Finding lowest empty row in worst case scans all rows → O(rows)
+    // verify() is called once per column → O(T_verify)
+    // Overall time: O(cols * (rows + T_verify))
+
+    // If verify() scans the whole board (rows * cols):
+    // Total = O(cols * (rows + rows*cols)) = O(rows * cols^2)
+    
     // the bot tries to win
     for(int i=0; i<cols; i++) {
         if(array[0][i] == '.') { //if the column is not filled
