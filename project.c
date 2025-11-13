@@ -65,7 +65,7 @@ int hardBot(char** array, int rows, int cols) {
     // if the bot and the player cannot win immediately, then generate a random move
     int col;
     do {
-        col = rand() % 7;
+        col = rand() % col;
     } while (array[0][col] != '.');
     return col;
 }
