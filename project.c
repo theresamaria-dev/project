@@ -10,7 +10,7 @@ int easyBot(char** array) {
     do {
         col = rand() % 7; //choose a column
     } while(array[0][col] != '.'); //if the top of the column is not empty then the whole column is filled so stop the loop
-    return col; //to return the column chosen by the bot
+    return col+1; //to return the column chosen by the bot
 }
 
 
@@ -37,7 +37,7 @@ int hardBot(char** array, int rows, int cols) {
                 array[row][i] = 'B'; //try to put B at array[row][i]
                 if(verify(array, 'B', rows, cols)) { //if this move can let the bot win, return column i
                     array[row][i] = '.';
-                    return i;
+                    return i+1;
                 }
                 array[row][i] = '.'; //else reset the char at array[row][i] to '.'
             }
@@ -55,7 +55,7 @@ int hardBot(char** array, int rows, int cols) {
                 array[row][i] = 'A'; //try to put A at array[row][i]
                 if(verify(array, 'A', rows, cols)) { //if the player can win, then return column i so the bot can block it
                     array[row][i] = '.';
-                    return i;
+                    return i+1;
                 }
                 array[row][i] = '.'; //else reset array[row][i] to '.'
             }
@@ -65,9 +65,9 @@ int hardBot(char** array, int rows, int cols) {
     // if the bot and the player cannot win immediately, then generate a random move
     int col;
     do {
-        col = rand() % col;
+        col = rand() % cols;
     } while (array[0][col] != '.');
-    return col;
+    return col+1;
 }
 
 //check if there are 4 identical symbols horizontally
@@ -233,9 +233,9 @@ int main() {
 
     char** array;
     array = (char**) malloc(rows * sizeof(char*));
-    for (int i = 0; i <= rows; i++) {
+    for (int i = 0; i < rows; i++) {
         array[i] = (char*) malloc(cols * sizeof(char));
-        for (int j = 0; j <= cols; j++) {
+        for (int j = 0; j < cols; j++) {
             array[i][j] = '.';
         }
     }
@@ -301,7 +301,7 @@ int main() {
         printf("\nPlayer B wins!");
     }
 
-    for (int i = 0; i <= rows; i++) {
+    for (int i = 0; i < rows; i++) {
         free(array[i]);
     }
     free(array);
