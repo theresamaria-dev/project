@@ -29,7 +29,7 @@ int hardBot(char** array, int rows, int cols) {
     // the bot tries to win
     for(int i=0; i<cols; i++) {
         if(array[0][i] == '.') { //if the column is not filled
-            int row = 5;
+            int row = rows -1;
             while(row>=0 && array[row][i] != '.') { //decrement the row until you find an empty slot
                 row--;
             }
@@ -47,7 +47,7 @@ int hardBot(char** array, int rows, int cols) {
     // if A can win, try to block it
     for(int i=0; i<cols; i++) {
         if(array[0][i] == '.') { // if the column is not filled
-            int row =5;
+            int row = rows-1;
             while(row>=0 && array[row][i] != '.') { //try to find an empty slot
                 row--;
             }
@@ -108,8 +108,8 @@ int verifyDown(char** array, int rows, int cols, char c) {
 
 //check if there are 4 identical symbols in a diagonal line from bottom left to top right
 int verifyUp(char** array, int rows, int cols, char c) {
-    for(int i=6; i>=rows-3; i--) {
-      for(int j=0; j<cols-3; j++) {
+     for(int i = 3; i < rows; i++) {          
+        for(int j = 0; j < cols - 3; j++) {
         if(array[i][j]==c && array[i-1][j+1]==c && array[i-2][j+2]==c && array[i-3][j+3]==c) {
           return 1;// a diagonal win is found
         }
