@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #include "game.h"
 
 
@@ -150,6 +151,7 @@ int inRange(int a,int min,int max){
     return (a>=min && a<=max);
 }
 int main() {
+    srand(time(NULL));
     const int rows = 6;
     const int cols = 7;
     int count = 0;
