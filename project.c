@@ -266,7 +266,7 @@ int main() {
         // if player A and B did not win yet, ask player B again to enter a column
         int y;
         if (!(verify(array, c2, rows, cols)) && !(verify(array, c, rows, cols))) {
-            printf("\nPlayer B, choose a column(1-7): ");
+            printf("\nPlayer B, choose a column(1-7): \n");
             if (choice == 1) {
                 while (1) {
                     if (scanf("%d", &y) != 1) {
