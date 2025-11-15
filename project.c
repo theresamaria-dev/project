@@ -244,7 +244,7 @@ int main() {
 
     // while no player won, keep on asking the players to enter a column 
     while (!(verify(array, c2, rows, cols)) && !(verify(array, c, rows, cols)) && count <= rows * cols) {
-        printf("\nPlayer A, choose a column(1-7): ");
+        printf("\nPlayer A, choose a column(1-7): \n");
         int x;
         while (1) { // if the user enters invalid input
             if (scanf("%d", &x) != 1) {
