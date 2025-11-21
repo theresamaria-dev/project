@@ -5,6 +5,13 @@
 #define MAX_VALUE 100000
 
 
+int getLowestEmptyRow(char** board, int rows, int col) {
+    for (int r = rows - 1; r >= 0; r--) {
+        if (board[r][col] == '.') return r;
+    }
+    return -1;
+}
+
 int isValid(char** board, int col) {
     if(board[0][col] == '.') return 1;
     return 0;
@@ -90,18 +97,30 @@ int hardBot(char** array, int rows, int cols) {
  int bestScore = -MAX_VALUE;
  int bestcol = -1;
  int depth = 6; // if depth set too small the bot becomes stupid if too large the bot becomes slow
-    for(int i =0;i<rows,i++){
-        for(int j =0;j<cols,j++){
-          replace(board, j, 'B', rows);
-          score = minimax(board,rows,cols,depth -1,MAX_VALUE,-MAX_VALUE,1);
-          undo(board,rows,j);
-        if (score>bestscore){ 
-            bestscore = score; 
-            bestcol=j; }
-            
-        }
+ int center = cols/2; // to be used in calculating the center moves since center based moves have higher possibilties and work well with minimax
+
+ for (int offset = 0; offset < cols; offset++) {
+        int col;
+        if (offset % 2 == 0) {
+            col = center - (offset / 2);// for even
+        } 
+        else {
+            col = center + (offset / 2 + 1);// for odd
     }
- return bestcol;
+     if (col < 0 || col >= cols) continue;
+     if (!isValid(array, col)) continue;
+    int r = getLowestEmptyRow(array, rows, col);
+    if (r == -1) continue;
+    array[r][col] = 'B';
+    score = minimax(board,rows,cols,depth -1,MAX_VALUE,-MAX_VALUE,0);
+    array[r][col] = '.';
+    if (score>bestscore){ 
+         bestscore = score; 
+         bestcol=col; 
+    }
+            
+ }
+ return bestcol+1;
 }
 
 
