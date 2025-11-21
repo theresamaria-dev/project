@@ -86,8 +86,27 @@ int easyBot(char** array) {
 }
 
 
+int hardBot(char** array, int rows, int cols) { 
+ int bestScore = -MAX_VALUE;
+ int bestcol = -1;
+ int depth = 6; // if depth set too small the bot becomes stupid if too large the bot becomes slow
+    for(int i =0;i<rows,i++){
+        for(int j =0;j<cols,j++){
+          replace(board, j, 'B', rows);
+          score = minimax(board,rows,cols,depth -1,MAX_VALUE,-MAX_VALUE,1);
+          undo(board,rows,j);
+        if (score>bestscore){ 
+            bestscore = score; 
+            bestcol=j; }
+            
+        }
+    }
+ return bestcol;
+}
+
+
 //if the level is medium
-int hardBot(char** array, int rows, int cols) {
+int mediumBot(char** array, int rows, int cols) {
     
     // Time Complexity Analysis:
     // Outer loop runs 'cols' times → O(cols)
