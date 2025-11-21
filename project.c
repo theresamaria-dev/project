@@ -20,14 +20,59 @@ int evaluateBoard (char** board, int rows, int cols) {
     return 0;
 }
 
-void undo(char** board, int rows, int cols) {
-    if(board[rows][cols] != '.') {
-        board[rows][cols] = '.';
+void undo(char** board, int rows, int col) {
+    for (int i=0; i<rows, i++) {
+        if(board[i][col] != '.') {  //find the first non-empty slot and remove the letter
+            board[i][col] = '.';
+            break;
+        }
     }
 }
 
 //the minimax function
+int minimax(char** board, int rows, int cols, int depth, int alpha, int beta, int turn) { //alpha and beta are used for pruning
+    int score = evaluateBoard(board, rows, cols);
+    if(score == 0 || score == MAX_VALUE || score == -MAX_VALUE) { //if we already have a winner then return the score of the winner
+        return score;
+    }
+    //if turn = 1 then it is the bot's turn, otherwise it is the player's turn
+    //the bot should try to maximize the score, so when turn = 1 maximizing score, turn = 0 minimizing score
+    if(turn == 1) {
+        int maxScore = INT_MIN; //find the maximum evaluation score that makes the bot win
+        for (int i=0; i<cols; i++) {
+            if(isValid(board, i)) {
+                replace(board, i, 'B', rows);
+                int s = minimax(board, rows, cols, depth -1, alpha, beta, 0); //recurse
+                undo(board, rows, i);
 
+                if(s > maxScore) {
+                    maxScore = s;
+                }
+                if(s > alpha) alpha = s;
+                if(beta <= alpha) break;
+            }
+        }
+        return maxScore;
+    }
+
+    else {
+        int minScore = INT_MAX; //find the minimum evaluation score that prevents the player from winning
+        for (int i=0; i<cols; i++) {
+            if(isValid(board, i)) {
+                replace(board, i, 'A', rows);
+                int s = minimax(board, rows, cols, depth -1, alpha, beta, 1); //recurse
+                undo(board, rows, i);
+
+                if(s < minScore) {
+                    minScore = s;
+                }
+                if(s < beta) beta = s;
+                if(beta <= alpha) break;
+            }
+        }
+        return minScore;
+    }
+}
 
 //the hard bot function
 
