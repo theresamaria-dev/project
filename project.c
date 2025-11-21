@@ -2,7 +2,34 @@
 #include <stdlib.h>
 #include <time.h>
 #include "game.h"
+#define MAX_VALUE 100000
 
+
+int isValid(char** board, int col) {
+    if(board[0][col] == '.') return 1;
+    return 0;
+}
+
+int evaluateBoard (char** board, int rows, int cols) {
+    if(verify(char** board, 'B', rows, cols)) {
+        return MAX_VALUE;
+    }
+    if(verify(char** board, 'A', rows, cols)) {
+        return -MAX_VALUE;
+    }
+    return 0;
+}
+
+void undo(char** board, int rows, int cols) {
+    if(board[rows][cols] != '.') {
+        board[rows][cols] = '.';
+    }
+}
+
+//the minimax function
+
+
+//the hard bot function
 
 //if the level is easy
 int easyBot(char** array) {
