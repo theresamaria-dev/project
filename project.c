@@ -172,6 +172,30 @@ int hardBot(char** array, int rows, int cols) {
  char bot = 'B';
  char opp = 'A';
 
+ for (int i = 0; i < cols; i++) {
+        if (isValid(array, i)) {
+            int r = getLowestEmptyRow(array, rows, i);
+            array[r][i] = bot;
+            if (verify(array, bot, rows, cols)) {  // instant win
+                array[r][i] = '.';
+                return i + 1;
+            }
+            array[r][i] = '.';
+        }
+    }
+
+    for (int i = 0; i < cols; i++) {
+        if (isValid(array, i)) {
+            int r = getLowestEmptyRow(array, rows, i);
+            array[r][i] = opp;
+            if (verify(array, opp, rows, cols)) {  
+                array[r][i] = '.';
+                return i + 1;  // block opponent
+            }
+            array[r][i] = '.';
+        }
+    }
+
  for (int offset = 0; offset < cols; offset++) {
         int col;
         if (offset % 2 == 0) {
