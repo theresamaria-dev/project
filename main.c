@@ -28,7 +28,7 @@ int main() {
     
     if (choice == 2) {
         while (1) {
-            printf("Easy or hard mode? (E for Easy, H for Hard): ");
+            printf("Easy, Medium, or hard mode? (E for Easy, M for Medium, H for Hard): ");
             if (scanf(" %c", &mode) != 1) {
                 printf("Invalid input. Please enter E or H.\n");
                 while (getchar() != '\n');
@@ -131,9 +131,12 @@ int main() {
             } else {
                 if (mode == 'E') { 
                     y = easyBot(array);
-                } else if (mode == 'H') { 
-                    y = hardBot(array, rows, cols);
+                } else if (mode == 'M') { 
+                    y = mediumBot(array, rows, cols);
                 } 
+                else {
+                    y = hardBot();
+                }
             }
               
             replace(array, y, c2, rows);
