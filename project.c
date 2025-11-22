@@ -18,14 +18,78 @@ int isValid(char** board, int col) {
     return 0;
 }
 
-int evaluateBoard (char** board, int rows, int cols) {
-    if(verify(board, 'B', rows, cols)) {
-        return MAX_VALUE;
+int windowEval(char window[4], char bot, char opponent) { 
+    //this function checks for dangerous zones and assigns weights accordingly
+    int b = 0, opp = 0, empty = 0; 
+    for (int i = 0; i < 4; i++) {
+        if (window[i] == bot){ b++; }
+        else if (window[i] == opponent) {opp++; }
+        else {empty++; }
     }
-    if(verify(board, 'A', rows, cols)) {
-        return -MAX_VALUE;
-    }
+    if (b == 4){ return MAX_VALUE; }
+    if (b == 3 && empty == 1) {return MAX_VALUE/2; }
+    if (b == 2 && empty == 2) {return MAX_VALUE/4;} 
+
+    if (opp == 4) {return -MAX_VALUE;} 
+    if (opp == 3 && empty == 1){ return -MAX_VALUE/2;  }
+    if (opp == 2 && empty == 2) {return -MAX_VALUE/4;  }
+
     return 0;
+}
+
+int evaluateBoard(char** board, int rows, int cols, char bot, char opp) {
+    // give each position a weight depending on the number of possibilties it gives the bot to perform
+    int score = 0;
+    int weights[rows][cols] = { 
+        {3, 4, 5, 7, 5, 4, 3},
+        {4, 6, 8,13, 8, 6, 4}, 
+        {4, 6, 8,13, 8, 6, 4}, 
+        {3, 5, 7, 9, 7, 5, 3},
+        {2, 4, 6, 8, 6, 4, 2},
+        {1, 2, 3, 4, 3, 2, 1}
+    };// note that the scores can be tuned and watch how the bot reacts with each change
+//add the weights to the score if its a botmove the score is positive if its a humanmove the score is negative
+    for(int r = 0; r < rows; r++) {
+        for(int c = 0; c < cols; c++) {
+            if(board[r][c] == bot) {score += weights[r][c]; }
+            else if(board[r][c] == opp){ score -= weights[r][c]; }
+        }
+    }
+
+    char window[4];
+    // check window directions
+    //horizontal
+    for(int r = 0; r < rows; r++) {
+        for(int c = 0; c < cols - 3; c++) {
+            for(int k = 0; k < 4; k++) {window[k] = board[r][c + k]; }
+            score += windowEval(window, bot, opp); 
+        }
+    }
+   // vertical
+    for(int c = 0; c < cols; c++) {
+        for(int r = 0; r < rows - 3; r++) {
+            for(int k = 0; k < 4; k++){ window[k] = board[r + k][c]; }
+            score += windowEval(window, bot, opp); 
+        }
+
+    }
+   //diagonally up
+    for(int r = 3; r < rows; r++) {
+        for(int c = 0; c < cols - 3; c++) {
+            for(int k = 0; k < 4; k++){ window[k] = board[r - k][c + k]; }
+            score += windowEval(window, bot, opp); 
+        }
+
+    }
+// diagonally down
+    for(int r = 0; r < rows - 3; r++) {
+        for(int c = 0; c < cols - 3; c++) {
+            for(int k = 0; k < 4; k++){ window[k] = board[r + k][c + k]; }
+            score += windowEval(window, bot, opp); 
+        }
+    }
+
+    return score;
 }
 
 void undo(char** board, int rows, int col) {
