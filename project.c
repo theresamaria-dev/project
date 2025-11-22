@@ -118,7 +118,7 @@ int minimax(char** board, int rows, int cols, int depth, int alpha, int beta, in
             if(isValid(board, i)) {
                 int r = getLowestEmptyRow(board, rows, i);
                 board[r][i] = bot;
-                int s = minimax(board, rows, cols, depth -1, alpha, beta, 1 , bot, opp); //recurse
+                int s = minimax(board, rows, cols, depth -1, alpha, beta, 0 , bot, opp); //recurse
                 board[r][i] = '.';
 
                 if(s > maxScore) {
