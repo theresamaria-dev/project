@@ -102,8 +102,8 @@ void undo(char** board, int rows, int col) {
 }
 
 //the minimax function
-int minimax(char** board, int rows, int cols, int depth, int alpha, int beta, int turn) { //alpha and beta are used for pruning
-    int score = evaluateBoard(board, rows, cols);
+int minimax(char** board, int rows, int cols, int depth, int alpha, int beta, int turn, char bot , char opp) { //alpha and beta are used for pruning
+    int score = evaluateBoard(board, rows, cols , bot, opp);
     if(depth == 0 || score == MAX_VALUE || score == -MAX_VALUE) { //if we already have a winner then return the score of the winner
         return score;
     }
@@ -113,9 +113,10 @@ int minimax(char** board, int rows, int cols, int depth, int alpha, int beta, in
         int maxScore = INT_MIN; //find the maximum evaluation score that makes the bot win
         for (int i=0; i<cols; i++) {
             if(isValid(board, i)) {
-                replace(board, i, 'B', rows);
-                int s = minimax(board, rows, cols, depth -1, alpha, beta, 0); //recurse
-                undo(board, rows, i);
+                int r = getLowestEmptyRow(board, rows, c);
+                board[r][c] = bot;
+                int s = minimax(board, rows, cols, depth -1, alpha, beta, 0 , bot, opp); //recurse
+                board[r][c] = '.';
 
                 if(s > maxScore) {
                     maxScore = s;
@@ -131,9 +132,10 @@ int minimax(char** board, int rows, int cols, int depth, int alpha, int beta, in
         int minScore = INT_MAX; //find the minimum evaluation score that prevents the player from winning
         for (int i=0; i<cols; i++) {
             if(isValid(board, i)) {
-                replace(board, i, 'A', rows);
+                int r = getLowestEmptyRow(board, rows, c);
+                board[r][c] = opp;
                 int s = minimax(board, rows, cols, depth -1, alpha, beta, 1); //recurse
-                undo(board, rows, i);
+                board[r][c] = '.';
 
                 if(s < minScore) {
                     minScore = s;
