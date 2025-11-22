@@ -242,10 +242,10 @@ int mediumBot(char** array, int rows, int cols) {
             if(row >=0) {
                 array[row][i] = 'B'; //try to put B at array[row][i]
                 if(verify(array, 'B', rows, cols)) { //if this move can let the bot win, return column i
-                    undo(array, rows, i);
+                    array[row][i] = '.';
                     return i+1;
                 }
-               undo(array, rows, i); //else reset the char at array[row][i] to '.'
+               array[row][i] = '.'; //else reset the char at array[row][i] to '.'
             }
         }
     }
@@ -260,10 +260,10 @@ int mediumBot(char** array, int rows, int cols) {
             if(row >=0) {
                 array[row][i] = 'A'; //try to put A at array[row][i]
                 if(verify(array, 'A', rows, cols)) { //if the player can win, then return column i so the bot can block it
-                    undo(array, rows, i);
+                    array[row][i] = '.';
                     return i+1;
                 }
-               undo(array, rows, i);//else reset array[row][i] to '.'
+               array[row][i] = '.';//else reset array[row][i] to '.'
             }
         }
     }
