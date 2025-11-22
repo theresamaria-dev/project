@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include "game.h"
+#include <ctype.h>
 #include <limits.h>
 #define MAX_VALUE 100000
 #define ROWS 6
