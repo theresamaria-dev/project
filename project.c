@@ -151,8 +151,6 @@ int minimax(char** board, int rows, int cols, int depth, int alpha, int beta, in
     }
 }
 
-//the hard bot function
-
 //if the level is easy
 int easyBot(char** array) {
     int col;
@@ -162,6 +160,7 @@ int easyBot(char** array) {
     return col+1; //to return the column chosen by the bot
 }
 
+//the hard bot function
 
 int hardBot(char** array, int rows, int cols) { 
  int bestScore = -MAX_VALUE;
