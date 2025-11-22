@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include "game.h"
+#include <limits.h>
 #define MAX_VALUE 100000
 
 
@@ -18,10 +19,10 @@ int isValid(char** board, int col) {
 }
 
 int evaluateBoard (char** board, int rows, int cols) {
-    if(verify(char** board, 'B', rows, cols)) {
+    if(verify(board, 'B', rows, cols)) {
         return MAX_VALUE;
     }
-    if(verify(char** board, 'A', rows, cols)) {
+    if(verify(board, 'A', rows, cols)) {
         return -MAX_VALUE;
     }
     return 0;
@@ -39,7 +40,7 @@ void undo(char** board, int rows, int col) {
 //the minimax function
 int minimax(char** board, int rows, int cols, int depth, int alpha, int beta, int turn) { //alpha and beta are used for pruning
     int score = evaluateBoard(board, rows, cols);
-    if(score == 0 || score == MAX_VALUE || score == -MAX_VALUE) { //if we already have a winner then return the score of the winner
+    if(depth == 0 || score == MAX_VALUE || score == -MAX_VALUE) { //if we already have a winner then return the score of the winner
         return score;
     }
     //if turn = 1 then it is the bot's turn, otherwise it is the player's turn
