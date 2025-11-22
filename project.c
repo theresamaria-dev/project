@@ -171,6 +171,14 @@ int hardBot(char** array, int rows, int cols) {
  char bot = 'B';
  char opp = 'A';
 
+     int count = 0;
+    for(int r=0; r<rows; r++){
+        for(int c=0; c<cols; c++){
+            if(array[r][c] != '.') count++;
+        }
+    }
+    if(count == 1 && isValid(array, 4)) return 5;
+
  for (int i = 0; i < cols; i++) {
         if (isValid(array, i)) {
             int r = getLowestEmptyRow(array, rows, i);
