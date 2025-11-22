@@ -4,6 +4,8 @@
 #include "game.h"
 #include <limits.h>
 #define MAX_VALUE 100000
+#define ROWS 6
+#define COLS 7
 
 
 int getLowestEmptyRow(char** board, int rows, int col) {
@@ -40,7 +42,7 @@ int windowEval(char window[4], char bot, char opponent) {
 int evaluateBoard(char** board, int rows, int cols, char bot, char opp) {
     // give each position a weight depending on the number of possibilties it gives the bot to perform
     int score = 0;
-    int weights[rows][cols] = { 
+    int weights[ROWS][COLS] = { 
         {3, 4, 5, 7, 5, 4, 3},
         {4, 6, 8,13, 8, 6, 4}, 
         {4, 6, 8,13, 8, 6, 4}, 
@@ -114,9 +116,9 @@ int minimax(char** board, int rows, int cols, int depth, int alpha, int beta, in
         for (int i=0; i<cols; i++) {
             if(isValid(board, i)) {
                 int r = getLowestEmptyRow(board, rows, i);
-                board[r][c] = bot;
+                board[r][i] = bot;
                 int s = minimax(board, rows, cols, depth -1, alpha, beta, 0 , bot, opp); //recurse
-                board[r][c] = '.';
+                board[r][i] = '.';
 
                 if(s > maxScore) {
                     maxScore = s;
@@ -133,9 +135,9 @@ int minimax(char** board, int rows, int cols, int depth, int alpha, int beta, in
         for (int i=0; i<cols; i++) {
             if(isValid(board, i)) {
                 int r = getLowestEmptyRow(board, rows, i);
-                board[r][c] = opp;
+                board[r][i] = opp;
                 int s = minimax(board, rows, cols, depth -1, alpha, beta, 1 , bot, opp); //recurse
-                board[r][c] = '.';
+                board[r][i] = '.';
 
                 if(s < minScore) {
                     minScore = s;
@@ -162,6 +164,7 @@ int easyBot(char** array) {
 
 int hardBot(char** array, int rows, int cols) { 
  int bestScore = -MAX_VALUE;
+ int score;
  int bestcol = -1;
  int depth = 6; // if depth set too small the bot becomes stupid if too large the bot becomes slow
  int center = cols/2; // to be used in calculating the center moves since center based moves have higher possibilties and work well with minimax
