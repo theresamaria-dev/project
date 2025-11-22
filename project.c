@@ -165,6 +165,8 @@ int hardBot(char** array, int rows, int cols) {
  int bestcol = -1;
  int depth = 6; // if depth set too small the bot becomes stupid if too large the bot becomes slow
  int center = cols/2; // to be used in calculating the center moves since center based moves have higher possibilties and work well with minimax
+ char bot = 'B';
+ char opp = 'A';
 
  for (int offset = 0; offset < cols; offset++) {
         int col;
@@ -178,8 +180,8 @@ int hardBot(char** array, int rows, int cols) {
      if (!isValid(array, col)) continue;
     int r = getLowestEmptyRow(array, rows, col);
     if (r == -1) continue;
-    array[r][col] = 'B';
-    score = minimax(board,rows,cols,depth -1,MAX_VALUE,-MAX_VALUE,0);
+    array[r][col] = bot;
+    score = minimax(board,rows,cols,depth -1,MAX_VALUE,-MAX_VALUE,1,bot,opp);
     array[r][col] = '.';
     if (score>bestscore){ 
          bestscore = score; 
