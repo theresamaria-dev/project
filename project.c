@@ -93,7 +93,7 @@ int evaluateBoard(char** board, int rows, int cols, char bot, char opp) {
 }
 
 void undo(char** board, int rows, int col) {
-    for (int i=0; i<rows, i++) {
+    for (int i = rows - 1; i >= 0; i--) {
         if(board[i][col] != '.') {  //find the first non-empty slot and remove the letter
             board[i][col] = '.';
             break;
@@ -113,7 +113,7 @@ int minimax(char** board, int rows, int cols, int depth, int alpha, int beta, in
         int maxScore = INT_MIN; //find the maximum evaluation score that makes the bot win
         for (int i=0; i<cols; i++) {
             if(isValid(board, i)) {
-                int r = getLowestEmptyRow(board, rows, c);
+                int r = getLowestEmptyRow(board, rows, i);
                 board[r][c] = bot;
                 int s = minimax(board, rows, cols, depth -1, alpha, beta, 0 , bot, opp); //recurse
                 board[r][c] = '.';
@@ -132,9 +132,9 @@ int minimax(char** board, int rows, int cols, int depth, int alpha, int beta, in
         int minScore = INT_MAX; //find the minimum evaluation score that prevents the player from winning
         for (int i=0; i<cols; i++) {
             if(isValid(board, i)) {
-                int r = getLowestEmptyRow(board, rows, c);
+                int r = getLowestEmptyRow(board, rows, i);
                 board[r][c] = opp;
-                int s = minimax(board, rows, cols, depth -1, alpha, beta, 1); //recurse
+                int s = minimax(board, rows, cols, depth -1, alpha, beta, 1 , bot, opp); //recurse
                 board[r][c] = '.';
 
                 if(s < minScore) {
@@ -181,10 +181,10 @@ int hardBot(char** array, int rows, int cols) {
     int r = getLowestEmptyRow(array, rows, col);
     if (r == -1) continue;
     array[r][col] = bot;
-    score = minimax(board,rows,cols,depth -1,MAX_VALUE,-MAX_VALUE,1,bot,opp);
+    score = minimax(board,rows,cols,depth -1,INT_MIN,INT_MAX,1,bot,opp);
     array[r][col] = '.';
-    if (score>bestscore){ 
-         bestscore = score; 
+    if (score>bestScore){ 
+         bestScore = score; 
          bestcol=col; 
     }
             
