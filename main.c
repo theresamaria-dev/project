@@ -1,3 +1,10 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include "game.h"
+#include <ctype.h>
+#include <limits.h>
+
 int main() {
     srand(time(NULL));
     const int rows = 6;
