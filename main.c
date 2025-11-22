@@ -48,7 +48,7 @@ int main() {
     }
 
     while (1) {
-        printf("Player A: ");
+        printf("Player A: \n");
         if (scanf(" %c", &c) != 1) {
             printf("Invalid input. Enter 'A'.\n");
             while (getchar() != '\n');
@@ -64,7 +64,7 @@ int main() {
 
     if (choice == 1) {
         while (1) {
-            printf("\nPlayer B: ");
+            printf("\nPlayer B: \n");
             if (scanf(" %c", &c2) != 1) {
                 printf("Invalid input. Enter 'B'.\n");
                 while (getchar() != '\n');
