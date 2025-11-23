@@ -129,9 +129,12 @@ int main() {
                     y = mediumBot(array, rows, cols);
                 } 
                 else {
+                    clock_t start = clock();
                     resetMinimaxNodes();
-                    y = hardBot(array, rows, cols);
-                    printf("Hard bot explored %lld nodes.\n", getMinimaxNodes());
+                    y = hardBotParallel(array, rows, cols);  // NEW multithreaded hard bot
+                    clock_t end = clock();
+                    double time_taken = (double)(end - start) / CLOCKS_PER_SEC;
+                    printf("Hard bot (parallel) explored ~%lld nodes in %.3f seconds.\n", getMinimaxNodes(), time_taken);
                 }
             }
               
