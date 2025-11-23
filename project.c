@@ -265,6 +265,31 @@ int mediumBot(char** array, int rows, int cols) {
     } while (array[0][col] != '.');
     return col + 1;
 }
+// ─────────────────────────────────────────────────────────────
+// Time Complexity Analysis (mediumBot)
+//
+// mediumBot() calls findWinningMove() twice (once for bot, once for player).
+//
+// Inside findWinningMove():
+// -Outer loop over all columns      → O(cols)
+// -For each column:
+//      - Loop to find lowest empty row      → O(rows)
+//      - verify() call to check if move wins:
+//            • verifyH, verifyV, verifyDown, verifyUp each scan the board
+//            • Overall verify() cost = O(rows * cols)
+//      - Total per column  = O(rows * cols)
+// -Total per findWinningMove()   = O(cols * rows * cols)
+//                                           = O(rows * cols²)
+//
+// mediumBot():
+// -1 × findWinningMove('B') → O(rows * cols²)
+// -1 × findWinningMove('A') → O(rows * cols²)
+// -Random move selection     → O(cols) (negligible)
+//
+// Final worst-case complexity:
+//      O(rows * cols²) + O(rows * cols²) + O(cols)
+//    = O(rows * cols²)
+// ─────────────────────────────────────────────────────────────
 
 
 //check if there are 4 identical symbols horizontally
