@@ -44,6 +44,7 @@ int windowEval(char window[4], char bot, char opponent) {
 }
 
 int evaluateBoard(char** board, int rows, int cols, char bot, char opp) {
+    // time complexity: O(rows * cols)
     // give each position a weight depending on the number of possibilties it gives the bot to perform
     int score = 0;
     int weights[ROWS][COLS] = { 
@@ -120,12 +121,12 @@ int isBoardFull(char** board, int rows, int cols) {
 //the minimax function
 int minimax(char** board, int rows, int cols, int depth, int alpha, int beta, int turn, char bot , char opp) { //alpha and beta are used for pruning
     minimax_nodes++;  // count this node
-    int score = evaluateBoard(board, rows, cols , bot, opp);
+    int score = evaluateBoard(board, rows, cols , bot, opp); // O(rows*cols)
     // Stop if:
     //  - maximum search depth reached
     //  - a winning position is detected for either side
     //  - the board is full (draw, no further moves)
-    if(depth == 0 || score == MAX_VALUE || score == -MAX_VALUE || isBoardFull(board, rows,cols)) { 
+    if(depth == 0 || score == MAX_VALUE || score == -MAX_VALUE || isBoardFull(board, rows,cols)) {  //O(1)
         return score;
     }
     //if turn = 1 then it is the bot's turn, otherwise it is the player's turn
@@ -135,14 +136,17 @@ int minimax(char** board, int rows, int cols, int depth, int alpha, int beta, in
         for (int i=0; i<cols; i++) {
             if(isValid(board, i)) {
                 int r = getLowestEmptyRow(board, rows, i);
-                board[r][i] = bot;
-                int s = minimax(board, rows, cols, depth -1, alpha, beta, 0 , bot, opp); //recurse
-                board[r][i] = '.';
+                board[r][i] = bot; //try the bot's move
+                // the time complexity of minimax is O(b^d)
+                // b = number of valid moves, d = depth
+                // the overall time complexity is O(7^depth) = O(7^6)
+                int s = minimax(board, rows, cols, depth -1, alpha, beta, 0 , bot, opp); //recurse to evaluate the bot's move
+                board[r][i] = '.'; //undo move
 
                 if(s > maxScore) {
-                    maxScore = s;
+                    maxScore = s; // update maxScore
                 }
-                if(s > alpha) alpha = s;
+                if(s > alpha) alpha = s; //for pruning
                 if(beta <= alpha) break;
             }
         }
@@ -154,14 +158,16 @@ int minimax(char** board, int rows, int cols, int depth, int alpha, int beta, in
         for (int i=0; i<cols; i++) {
             if(isValid(board, i)) {
                 int r = getLowestEmptyRow(board, rows, i);
-                board[r][i] = opp;
-                int s = minimax(board, rows, cols, depth -1, alpha, beta, 1 , bot, opp); //recurse
-                board[r][i] = '.';
+                board[r][i] = opp; //try the opponent's move
+                // same time complexity for the recursive call for the bot
+                // O(7^depth)
+                int s = minimax(board, rows, cols, depth -1, alpha, beta, 1 , bot, opp); //recurse to evaluate the opponent's move
+                board[r][i] = '.'; //undo move
 
                 if(s < minScore) {
-                    minScore = s;
+                    minScore = s; //update minScore
                 }
-                if(s < beta) beta = s;
+                if(s < beta) beta = s; //for pruning
                 if(beta <= alpha) break;
             }
         }
