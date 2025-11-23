@@ -129,7 +129,9 @@ int main() {
                     y = mediumBot(array, rows, cols);
                 } 
                 else {
+                    resetMinimaxNodes();
                     y = hardBot(array, rows, cols);
+                    printf("Hard bot explored %lld nodes.\n", getMinimaxNodes());
                 }
             }
               
