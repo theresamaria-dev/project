@@ -4,6 +4,8 @@
 #include "game.h"
 #include <ctype.h>
 #include <limits.h>
+#include <pthread.h>   // NEW
+
 #define MAX_VALUE 100000
 #define ROWS 6
 #define COLS 7
@@ -182,6 +184,174 @@ int easyBot(char** array) {
         col = rand() % 7; //choose a column
     } while(array[0][col] != '.'); //if the top of the column is not empty then the whole column is filled so stop the loop
     return col+1; //to return the column chosen by the bot
+}
+
+typedef struct {
+    char** board;
+    int rows;
+    int cols;
+    int col;
+    int depth;
+    char bot;
+    char opp;
+    int score;
+} ThreadArgs;
+
+void* threadMinimax(void* arg) {
+    ThreadArgs* t = (ThreadArgs*)arg;
+    int rows = t->rows;
+    int cols = t->cols;
+    int col  = t->col;
+    char bot = t->bot;
+    char opp = t->opp;
+    int depth = t->depth;
+
+    // Allocate a copy of the board for this thread
+    char** copy = (char**)malloc(rows * sizeof(char*));
+    if (!copy) {
+        t->score = -MAX_VALUE;
+        pthread_exit(NULL);
+    }
+
+    for (int r = 0; r < rows; r++) {
+        copy[r] = (char*)malloc(cols * sizeof(char));
+        if (!copy[r]) {
+            // cleanup on failure
+            for (int k = 0; k < r; k++) free(copy[k]);
+            free(copy);
+            t->score = -MAX_VALUE;
+            pthread_exit(NULL);
+        }
+        for (int c = 0; c < cols; c++) {
+            copy[r][c] = t->board[r][c];
+        }
+    }
+
+    int r = getLowestEmptyRow(copy, rows, col);
+    if (r == -1) {
+        t->score = -MAX_VALUE;
+    } else {
+        copy[r][col] = bot;
+        t->score = minimax(copy, rows, cols, depth - 1, INT_MIN, INT_MAX, 0, bot, opp);
+        copy[r][col] = '.';
+    }
+
+    // Free local copy
+    for (int i = 0; i < rows; i++) {
+        free(copy[i]);
+    }
+    free(copy);
+
+    pthread_exit(NULL);
+}
+//the multithread hardBotParallel function
+int hardBotParallel(char** array, int rows, int cols) { 
+    int bestScore = -MAX_VALUE;
+    int bestcol   = -1;
+    char bot = 'B';
+    char opp = 'A';
+
+    // Count how many moves played so far (for dynamic depth)
+    int count = 0;
+    for (int r = 0; r < rows; r++) {
+        for (int c = 0; c < cols; c++) {
+            if (array[r][c] != '.') count++;
+        }
+    }
+
+    // If bot is playing very early, prefer center quickly
+    if (count == 1 && isValid(array, 4)) return 5;
+
+    // Dynamic depth based on game phase
+    int depth;
+    if (count <= 10) {
+        depth = 7;   // early game
+    } else if (count <= 24) {
+        depth = 6;   // mid game
+    } else {
+        depth = 5;   // late game
+    }
+
+    // 1) Check for immediate winning move (sequential)
+    for (int i = 0; i < cols; i++) {
+        if (isValid(array, i)) {
+            int r = getLowestEmptyRow(array, rows, i);
+            array[r][i] = bot;
+            if (verify(array, bot, rows, cols)) {  // instant win
+                array[r][i] = '.';
+                return i + 1;
+            }
+            array[r][i] = '.';
+        }
+    }
+
+    // 2) Check for immediate blocking move (sequential)
+    for (int i = 0; i < cols; i++) {
+        if (isValid(array, i)) {
+            int r = getLowestEmptyRow(array, rows, i);
+            array[r][i] = opp;
+            if (verify(array, opp, rows, cols)) {  // block opponent
+                array[r][i] = '.';
+                return i + 1;
+            }
+            array[r][i] = '.';
+        }
+    }
+
+    // 3) Collect candidate columns in center-first order
+    int center = cols / 2;
+    int candidates[COLS];
+    int numCandidates = 0;
+
+    for (int offset = 0; offset < cols; offset++) {
+        int col;
+        if (offset % 2 == 0) {
+            col = center - (offset / 2);         // even offsets: go left
+        } else {
+            col = center + (offset / 2 + 1);     // odd offsets: go right
+        }
+
+        if (col < 0 || col >= cols) continue;
+        if (!isValid(array, col)) continue;
+
+        int r = getLowestEmptyRow(array, rows, col);
+        if (r == -1) continue;
+
+        candidates[numCandidates++] = col;
+    }
+
+    if (numCandidates == 0) {
+        // No valid move (should not normally happen if checked properly)
+        return 1;
+    }
+
+    // 4) Create one thread per candidate column
+    pthread_t threads[numCandidates];
+    ThreadArgs args[numCandidates];
+
+    for (int i = 0; i < numCandidates; i++) {
+        args[i].board = array;
+        args[i].rows  = rows;
+        args[i].cols  = cols;
+        args[i].col   = candidates[i];
+        args[i].depth = depth;
+        args[i].bot   = bot;
+        args[i].opp   = opp;
+        args[i].score = -MAX_VALUE;
+
+        pthread_create(&threads[i], NULL, threadMinimax, &args[i]);
+    }
+
+    // 5) Join threads and pick best score
+    for (int i = 0; i < numCandidates; i++) {
+        pthread_join(threads[i], NULL);
+        if (args[i].score > bestScore) {
+            bestScore = args[i].score;
+            bestcol   = args[i].col;
+        }
+    }
+
+    return bestcol + 1;
 }
 
 //the hard bot function
