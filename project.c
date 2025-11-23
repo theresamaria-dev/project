@@ -104,6 +104,16 @@ void undo(char** board, int rows, int col) {
     }
 }
 
+int isBoardFull(char** board, int rows, int cols) {
+    for (int c = 0; c < cols; c++) {
+        if (board[0][c] == '.') {
+            // If the top cell of a column is empty, the board is not full
+            return 0;
+        }
+    }
+    return 1;   // no empty top cells so the board is full
+}
+
 //the minimax function
 int minimax(char** board, int rows, int cols, int depth, int alpha, int beta, int turn, char bot , char opp) { //alpha and beta are used for pruning
     int score = evaluateBoard(board, rows, cols , bot, opp);
