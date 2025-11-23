@@ -227,6 +227,26 @@ int hardBot(char** array, int rows, int cols) {
  return bestcol+1;
 }
 
+int findWinningMove(char** array, int rows, int cols, char player) {
+    for (int col = 0; col < cols; col++) {
+        if (array[0][col] == '.') {
+            int row = rows - 1;
+            while (row >= 0 && array[row][col] != '.') {
+                row--;
+            }
+            if (row >= 0) {
+                array[row][col] = player;
+                if (verify(array, player, rows, cols)) {
+                    array[row][col] = '.';
+                    return col + 1;   // columns are 1-based in the rest of the code
+                }
+                array[row][col] = '.';
+            }
+        }
+    }
+    return -1;  // no winning move
+}
+
 
 //if the level is medium
 int mediumBot(char** array, int rows, int cols) {
