@@ -117,7 +117,11 @@ int isBoardFull(char** board, int rows, int cols) {
 //the minimax function
 int minimax(char** board, int rows, int cols, int depth, int alpha, int beta, int turn, char bot , char opp) { //alpha and beta are used for pruning
     int score = evaluateBoard(board, rows, cols , bot, opp);
-    if(depth == 0 || score == MAX_VALUE || score == -MAX_VALUE) { //if we already have a winner then return the score of the winner
+    // Stop if:
+    //  - maximum search depth reached
+    //  - a winning position is detected for either side
+    //  - the board is full (draw, no further moves)
+    if(depth == 0 || score == MAX_VALUE || score == -MAX_VALUE || isBoardFull(board, rows,cols)) { 
         return score;
     }
     //if turn = 1 then it is the bot's turn, otherwise it is the player's turn
