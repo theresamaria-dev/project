@@ -250,59 +250,22 @@ int findWinningMove(char** array, int rows, int cols, char player) {
 
 //if the level is medium
 int mediumBot(char** array, int rows, int cols) {
-    
-    // Time Complexity Analysis:
-    // Outer loop runs 'cols' times → O(cols)
-    // Finding lowest empty row in worst case scans all rows → O(rows)
-    // verify() is called once per column → O(T_verify)
-    // Overall time: O(cols * (rows + T_verify))
+    // 1) bot tries to win
+    int winCol = findWinningMove(array, rows, cols, 'B');
+    if (winCol != -1) return winCol;
 
-    // If verify() scans the whole board (rows * cols):
-    // Total = O(cols * (rows + rows*cols)) = O(rows * cols^2)
-    
-    // the bot tries to win
-    for(int i=0; i<cols; i++) {
-        if(array[0][i] == '.') { //if the column is not filled
-            int row = rows -1;
-            while(row>=0 && array[row][i] != '.') { //decrement the row until you find an empty slot
-                row--;
-            }
-            if(row >=0) {
-                array[row][i] = 'B'; //try to put B at array[row][i]
-                if(verify(array, 'B', rows, cols)) { //if this move can let the bot win, return column i
-                    array[row][i] = '.';
-                    return i+1;
-                }
-               array[row][i] = '.'; //else reset the char at array[row][i] to '.'
-            }
-        }
-    }
-    
-    // if A can win, try to block it
-    for(int i=0; i<cols; i++) {
-        if(array[0][i] == '.') { // if the column is not filled
-            int row = rows-1;
-            while(row>=0 && array[row][i] != '.') { //try to find an empty slot
-                row--;
-            }
-            if(row >=0) {
-                array[row][i] = 'A'; //try to put A at array[row][i]
-                if(verify(array, 'A', rows, cols)) { //if the player can win, then return column i so the bot can block it
-                    array[row][i] = '.';
-                    return i+1;
-                }
-               array[row][i] = '.';//else reset array[row][i] to '.'
-            }
-        }
-    }
-    
-    // if the bot and the player cannot win immediately, then generate a random move
+    // 2) bot tries to block player
+    int blockCol = findWinningMove(array, rows, cols, 'A');
+    if (blockCol != -1) return blockCol;
+
+    // 3) otherwise random move
     int col;
     do {
         col = rand() % cols;
     } while (array[0][col] != '.');
-    return col+1;
+    return col + 1;
 }
+
 
 //check if there are 4 identical symbols horizontally
 int verifyH(char** array, int rows, int cols, char c) {
