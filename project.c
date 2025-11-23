@@ -241,7 +241,6 @@ void* threadMinimax(void* arg) {
         free(copy[i]);
     }
     free(copy);
-
     pthread_exit(NULL);
 }
 //the multithread hardBotParallel function
