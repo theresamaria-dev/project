@@ -9,6 +9,7 @@ int verifyUp(char** array, int rows, int cols, char c);
 int verify(char** array, char c, int rows, int cols);
 int easyBot(char** array);
 int mediumBot(char** array, int rows, int cols);
+int findWinningMove(char** array, int rows, int cols, char player);
 int hardBot(char** array, int rows, int cols);
 void replace(char** array, int x, char c, int rows);
 void print(char** array, int rows, int cols);
