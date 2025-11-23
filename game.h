@@ -14,6 +14,8 @@ int hardBot(char** array, int rows, int cols);
 void replace(char** array, int x, char c, int rows);
 void print(char** array, int rows, int cols);
 int inRange(int a,int min,int max);
+int isBoardFull(char** board, int rows, int cols);
+
 
 #endif
 
