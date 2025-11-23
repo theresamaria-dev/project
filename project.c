@@ -8,6 +8,7 @@
 #define ROWS 6
 #define COLS 7
 
+static long long minimax_nodes = 0;
 
 int getLowestEmptyRow(char** board, int rows, int col) {
     for (int r = rows - 1; r >= 0; r--) {
@@ -116,6 +117,7 @@ int isBoardFull(char** board, int rows, int cols) {
 
 //the minimax function
 int minimax(char** board, int rows, int cols, int depth, int alpha, int beta, int turn, char bot , char opp) { //alpha and beta are used for pruning
+    minimax_nodes++;  // count this node
     int score = evaluateBoard(board, rows, cols , bot, opp);
     // Stop if:
     //  - maximum search depth reached
@@ -163,6 +165,14 @@ int minimax(char** board, int rows, int cols, int depth, int alpha, int beta, in
         }
         return minScore;
     }
+}
+
+void resetMinimaxNodes(void) {
+    minimax_nodes = 0;
+}
+
+long long getMinimaxNodes(void) {
+    return minimax_nodes;
 }
 
 //if the level is easy
