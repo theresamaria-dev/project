@@ -416,7 +416,7 @@ int hardBot(char** array, int rows, int cols) {
     int r = getLowestEmptyRow(array, rows, col);
     if (r == -1) continue;
     array[r][col] = bot;
-    score = minimax(array,rows,cols,depth -1,INT_MIN,INT_MAX,1,bot,opp);
+    score = minimax(array,rows,cols,depth -1,INT_MIN,INT_MAX,0,bot,opp);
     array[r][col] = '.';
     if (score>bestScore){ 
          bestScore = score; 
