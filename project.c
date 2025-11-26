@@ -272,10 +272,8 @@ int hardBotParallel(char** array, int rows, int cols) {
     int depth;
     if (count <= 10) {
         depth = 7;   // early game
-    } else if (count <= 24) {
-        depth = 6;   // mid game
     } else {
-        depth = 5;   // late game
+        depth = 6;   // mid and late game
     }
 
     // 1) Check for immediate winning move (sequential)
