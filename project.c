@@ -266,7 +266,7 @@ int hardBotParallel(char** array, int rows, int cols) {
 
     // If bot is playing very early, prefer center quickly
     if (count == 1 && isValid(array, 4)) return 5;
-    if(count == 3 && array[5][3] == 'A') return 3;
+   
 
     // Dynamic depth based on game phase
     int depth;
@@ -376,7 +376,7 @@ int hardBot(char** array, int rows, int cols) {
         }
     }
     if(count == 1 && isValid(array, 4)) return 5;
-    if(count == 3 && array[5][3] == 'A') return 3;
+   
 
  for (int i = 0; i < cols; i++) {
         if (isValid(array, i)) {
