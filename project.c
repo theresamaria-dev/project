@@ -357,7 +357,7 @@ int hardBotParallel(char** array, int rows, int cols) {
 
     return bestcol + 1;
 }
-//With multithreading we reduce effective runtime to O(bᵈ / T) where T is the number of threads, b is the braching factor and d is the depth power
+//With multithreading we reduce effective runtime from O(bᵈ) to O(bᵈ / T) where T is the number of threads, b is the braching factor and d is the depth power
 
 //the hard bot function
 
